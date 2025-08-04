@@ -23,4 +23,20 @@ export interface Variable {
     defaultValue: string;
     hint: string;
   }
-  
+
+export interface EffectivenessScore {
+  total_score: number;
+  breakdown: {
+    specificity: ScoreDetail;
+    structure: ScoreDetail;
+    context: ScoreDetail;
+    action_clarity: ScoreDetail;
+  };
+  overall_suggestions: string[];
+}
+
+export interface ScoreDetail {
+  score: number;
+  reasoning: string;
+  improvement: string;
+}

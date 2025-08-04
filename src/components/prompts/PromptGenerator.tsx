@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import FrameworksList from "./FrameworksList";
+import EffectivenessScore from "./EffectivenessScore";
 import { renderPreviewText } from "../../utils/textUtils";
-import type { Framework } from "../../types";
+import { analyzePromptEffectiveness } from "../../services/promptAnalysisService";
+import type { Framework, EffectivenessScore as EffectivenessScoreType } from "../../types";
 
 interface PromptGeneratorProps {
   frameworks: Framework[];
@@ -12,6 +14,8 @@ export default function PromptGenerator({ frameworks, setAlertMessage }: PromptG
   const [selectedFramework, setSelectedFramework] = useState<Framework | null>(null);
   const [previewValues, setPreviewValues] = useState<Record<string, string>>({});
   const [searchTerm, setSearchTerm] = useState("");
+  const [effectivenessScore, setEffectivenessScore] = useState<EffectivenessScoreType | null>(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   // Update preview values with default values when a new framework is selected
   useEffect(() => {
@@ -29,6 +33,84 @@ export default function PromptGenerator({ frameworks, setAlertMessage }: PromptG
     if (!selectedFramework) return "Select a framework to begin.";
     return renderPreviewText(selectedFramework.text, selectedFramework.variables, previewValues);
   };
+
+// Optimized rate limiting for Flash-Lite's higher limits
+const MIN_ANALYSIS_INTERVAL = 4000; // 4 seconds (15 RPM = every 4 seconds)
+let lastAnalysisTime = 0;
+
+const analyzePrompt = useCallback(async (promptText: string) => {
+  if (!promptText.trim() || promptText.trim().length < 10) {
+    setEffectivenessScore(null);
+    return;
+  }
+
+  // Rate limiting for Flash-Lite
+  const now = Date.now();
+  const timeSinceLastAnalysis = now - lastAnalysisTime;
+  const waitTime = Math.max(0, MIN_ANALYSIS_INTERVAL - timeSinceLastAnalysis);
+
+  if (waitTime > 0) {
+    console.log(`Rate limiting: waiting ${waitTime}ms before next analysis (Flash-Lite: 15 RPM)`);
+    await new Promise(resolve => setTimeout(resolve, waitTime));
+  }
+
+  lastAnalysisTime = Date.now();
+  setIsAnalyzing(true);
+  setEffectivenessScore(null);
+  
+  try {
+    console.log('Starting Flash-Lite analysis for:', promptText.substring(0, 50) + '...');
+    const score = await analyzePromptEffectiveness(promptText);
+    console.log('Flash-Lite analysis completed:', score.total_score);
+    setEffectivenessScore(score);
+  } catch (error) {
+    console.error("Error analyzing prompt:", error);
+    setEffectivenessScore(null);
+    
+    if (error instanceof Error && error.message.includes('timeout')) {
+      setAlertMessage('Analysis timed out. Flash-Lite should be faster - please check your connection.');
+    }
+  } finally {
+    setIsAnalyzing(false);
+  }
+}, [setAlertMessage]);
+
+// Reduced debounce time since Flash-Lite is faster
+useEffect(() => {
+  const promptText = getPreviewText();
+  
+  if (!promptText || promptText === "Select a framework to begin.") {
+    setEffectivenessScore(null);
+    setIsAnalyzing(false);
+    return;
+  }
+
+  setEffectivenessScore(null);
+
+  const timeoutId = setTimeout(() => {
+    analyzePrompt(promptText);
+  }, 1500); // Reduced to 1.5 seconds due to Flash-Lite's low latency
+
+  return () => clearTimeout(timeoutId);
+}, [previewValues, selectedFramework, analyzePrompt]);
+
+
+
+  // Debounce the analysis to avoid too many API calls
+  useEffect(() => {
+    const promptText = getPreviewText();
+    
+    if (!promptText || promptText === "Select a framework to begin.") {
+      setEffectivenessScore(null);
+      return;
+    }
+
+    const timeoutId = setTimeout(() => {
+      analyzePrompt(promptText);
+    }, 1000); // Wait 1 second after user stops typing
+
+    return () => clearTimeout(timeoutId);
+  }, [previewValues, selectedFramework, analyzePrompt]);
   
   const copyPromptToClipboard = () => {
     const generatedPrompt = getPreviewText();
@@ -57,7 +139,7 @@ export default function PromptGenerator({ frameworks, setAlertMessage }: PromptG
         <h2 className="text-xl md:text-2xl font-bold mb-4">{selectedFramework?.name || "Select a Framework"}</h2>
         
         {selectedFramework ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 flex-1">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 flex-1">
             {/* Variable inputs form */}
             <div className="flex flex-col space-y-4">
               <h3 className="text-lg font-semibold mb-2">Variables</h3>
@@ -78,18 +160,26 @@ export default function PromptGenerator({ frameworks, setAlertMessage }: PromptG
               ))}
             </div>
 
-            {/* Live preview area */}
+            {/* Live preview area with effectiveness score */}
             <div className="flex flex-col">
               <h3 className="text-lg font-semibold mb-2">Generated Prompt</h3>
               <div className="flex-1 bg-gray-100 p-6 rounded-lg text-lg text-gray-800 leading-relaxed whitespace-pre-wrap overflow-auto">
                 {getPreviewText()}
               </div>
+              
               <button
                 onClick={copyPromptToClipboard}
                 className="mt-4 w-full px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all duration-200"
               >
                 Copy Prompt
               </button>
+
+              {/* Effectiveness Score Component */}
+              <EffectivenessScore
+                score={effectivenessScore}
+                isAnalyzing={isAnalyzing}
+                promptText={getPreviewText()}
+              />
             </div>
           </div>
         ) : (
