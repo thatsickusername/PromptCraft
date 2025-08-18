@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import FrameworkSidebar from "./FrameworkSidebar";
-import { generateVariables } from "../../services/aiService";
+import { generateVariables } from "../../services/generateVariablesService";
 import { renderHighlightedText, processTextInput } from "../../utils/textUtils";
 import type { Framework, Variable, EditingVariable, SuggestedVariable } from "../../types";
 
