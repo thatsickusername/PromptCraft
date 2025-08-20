@@ -211,7 +211,7 @@ export default function FrameworkEditor({ onSave, setAlertMessage }: FrameworkEd
           onInput={handleInput}
           onMouseUp={handleSelection}
           onKeyUp={handleSelection}
-          className="flex-1 p-6 text-base md:text-lg bg-white rounded-xl shadow-lg border border-gray-200 resize-none overflow-auto focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300"
+          className="flex-1 p-6 text-base md:text-lg bg-white rounded-xl shadow-md border border-gray-200 resize-none overflow-auto focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300"
           style={{ fontFamily: 'Inter, sans-serif', minHeight: '300px' }}
         />
         {selectedWord && !showSidebar && (
