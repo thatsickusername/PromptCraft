@@ -203,22 +203,36 @@ export default function FrameworkEditor({ onSave, setAlertMessage }: FrameworkEd
   return (
     <div className="flex w-full h-full">
       {/* Editor Area */}
-      <div className="flex-1 flex flex-col p-4 md:p-8">
-        <h2 className="text-xl md:text-2xl font-bold mb-4">Create Your Framework</h2>
-        <div
-          ref={editorRef}
-          contentEditable
-          onInput={handleInput}
-          onMouseUp={handleSelection}
-          onKeyUp={handleSelection}
-          className="flex-1 p-6 text-base md:text-lg bg-white rounded-xl shadow-md border border-gray-200 resize-none overflow-auto focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300"
-          style={{ fontFamily: 'Inter, sans-serif', minHeight: '300px' }}
-        />
-        {selectedWord && !showSidebar && (
-          <div className="fixed bottom-4 left-1/2 -translate-x-1/2 p-3 bg-indigo-600 text-white rounded-lg shadow-xl text-sm md:text-base">
-            <p>Selected phrase: <strong>{selectedWord}</strong>. To create a variable, click on it and use the sidebar.</p>
-          </div>
-        )}
+      <div className="flex flex-1 items-center justify-center min-h-screen p-4 md:p-8">
+        <div className="border border-gray-200 bg-gray-50 rounded-xl shadow-md w-2/3 overflow-hidden">
+          <header className="p-4 border-b border-gray-200">
+            <h2 className="text-sm font-semibold text-gray-800">Create a new Framework</h2>
+          </header>
+          
+          <div
+            ref={editorRef}
+            contentEditable
+            onInput={handleInput}
+            onMouseUp={handleSelection}
+            onKeyUp={handleSelection}
+            className="flex-1 p-6 text-base md:text-lg bg-white resize-none overflow-auto outline-none focus:outline-none transition-all duration-300"
+            style={{ fontFamily: 'Inter, sans-serif', minHeight: '300px' }}
+          />
+          {selectedWord && !showSidebar && (
+            <div className="fixed bottom-4 left-1/2 -translate-x-1/2 p-3 bg-indigo-600 text-white rounded-lg shadow-xl text-sm md:text-base">
+              <p>Selected phrase: <strong>{selectedWord}</strong>. To create a variable, click on it and use the sidebar.</p>
+            </div>
+          )}
+
+          <footer className="p-4 border-t border-gray-200 flex justify-end space-x-4">
+            <button className="px-6 py-2 rounded-lg font-semibold text-sm transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300">
+              Save
+            </button>
+            <button className="px-6 py-2 rounded-lg font-semibold text-sm transition-colors bg-blue-500 text-white hover:bg-blue-600">
+              Publish
+            </button>
+          </footer>
+        </div>
       </div>
 
       <FrameworkSidebar
