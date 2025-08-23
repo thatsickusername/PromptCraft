@@ -49,21 +49,16 @@ export default function FrameworkSidebar({
   onGenerateVariables,
   onAddSuggestedVariable,
   text,
-  frameworkName,
-  setFrameworkName,
-  onSave,
-  isSaving,
-  variablesCount
 }: FrameworkSidebarProps) {
   return (
     <div
-      className={`flex-shrink-0 w-full md:w-80 p-6 bg-white border-l border-gray-200 shadow-xl overflow-y-auto transition-transform duration-300 ease-in-out z-10 
+      className={`flex-shrink-0 w-full md:w-80 p-6 bg-neutral-100 border-l border-gray-200 shadow-xl overflow-y-auto transition-transform duration-300 ease-in-out z-10 
         ${showSidebar ? 'translate-x-0' : 'translate-x-full md:translate-x-0'} 
         ${!showSidebar ? 'fixed right-0 top-0 h-full md:relative' : 'fixed right-0 top-0 h-full md:relative'}
       `}
     >
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-bold text-gray-900">{editingVariable ? "Edit Variable" : "Create Variable"}</h2>
+        <h2 className="text-xl font-bold text-neutral-700">{editingVariable ? "Edit Variable" : "Create Variable"}</h2>
         <button onClick={() => setShowSidebar(false)} className="md:hidden p-1 text-gray-500 hover:text-gray-900">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -95,27 +90,6 @@ export default function FrameworkSidebar({
         onAddSuggestedVariable={onAddSuggestedVariable}
         text={text}
       />
-      
-      <hr className="my-6 border-gray-200" />
-      
-      <label className="block mb-4">
-        <span className="text-sm font-medium text-gray-700">Framework Name</span>
-        <input
-          type="text"
-          value={frameworkName}
-          onChange={(e) => setFrameworkName(e.target.value)}
-          placeholder="Enter a title for this framework"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-base"
-        />
-      </label>
-      
-      <button
-        onClick={onSave}
-        disabled={variablesCount === 0 || !frameworkName.trim() || !text.trim() || isSaving}
-        className="w-full px-4 py-2 bg-gray-800 text-white font-semibold rounded-lg shadow-md hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200"
-      >
-        {isSaving ? "Saving..." : "Save Framework"}
-      </button>
     </div>
   );
 }

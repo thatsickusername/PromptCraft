@@ -21,7 +21,19 @@ export default function SuggestedVariables({
       <button
         onClick={onGenerateVariables}
         disabled={isGeneratingVariables || !text.trim()}
-        className="w-full px-4 py-2 bg-emerald-600 text-white font-semibold rounded-lg shadow-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200"
+        className={`w-full px-4 py-2 text-white font-semibold rounded-lg
+            relative inline-flex items-center justify-center
+            text-lg 
+            ${!isGeneratingVariables 
+              ? "bg-gradient-to-br from-green-600 via-green-400 to-lime-400"  
+              : "bg-gradient-to-br from-green-700 via-green-500 to-lime-600"
+            }
+            bg-[size:400%_400%]
+            hover:shadow-xl hover:shadow-green-400/30
+            transition-shadow duration-300
+            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500
+        `}
+        style={{ animation: 'liquid-flow 4s ease infinite' }}
       >
         {isGeneratingVariables ? "Generating..." : "Suggest Variables"}
       </button>
@@ -29,7 +41,7 @@ export default function SuggestedVariables({
       {suggestedVariables.length > 0 && (
         <div className="mt-4 space-y-4">
           {suggestedVariables.map((suggestion, index) => (
-            <div key={index} className="p-4 bg-gray-100 rounded-lg border border-gray-200 shadow-sm">
+            <div key={index} className="p-4 bg-white rounded-lg border border-gray-200 shadow-sm">
               <p className="font-semibold text-gray-800">
                 <span className="text-sm text-gray-500">Var:</span> {suggestion.variableName}
               </p>
@@ -44,7 +56,7 @@ export default function SuggestedVariables({
               </p>
               <button
                 onClick={() => onAddSuggestedVariable(suggestion, index)}
-                className="mt-2 w-full px-4 py-2 text-sm bg-indigo-100 text-indigo-700 font-semibold rounded-lg hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all duration-200"
+                className="mt-2 w-full px-4 py-2 text-sm bg-green-200 text-green-700 font-semibold rounded-lg hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all duration-200"
               >
                 Add Variable
               </button>
