@@ -59,7 +59,7 @@ export default function App() {
   };
 
   return (
-    <div className="flex h-screen bg-white font-sans text-gray-800">
+    <div className="flex h-screen bg-white font-sans text-gray-800 relative">
       <SideNavbar activeTab={activeTab} setActiveTab={setActiveTab}/>
      
       {/* Main Content Area */}

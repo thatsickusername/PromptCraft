@@ -52,7 +52,7 @@ export default function FrameworkSidebar({
 }: FrameworkSidebarProps) {
   return (
     <div
-      className={`flex-shrink-0 w-full md:w-80 p-6 bg-neutral-100 border-l border-gray-200 shadow-xl overflow-y-auto transition-transform duration-300 ease-in-out z-10 
+        className={`flex-shrink-0 w-full md:w-80 p-6 bg-neutral-100 border-l border-gray-200 shadow-md overflow-y-auto transition-transform duration-300 ease-in-out z-10 
         ${showSidebar ? 'translate-x-0' : 'translate-x-full md:translate-x-0'} 
         ${!showSidebar ? 'fixed right-0 top-0 h-full md:relative' : 'fixed right-0 top-0 h-full md:relative'}
       `}

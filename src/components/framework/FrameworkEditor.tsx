@@ -204,7 +204,7 @@ export default function FrameworkEditor({ onSave, setAlertMessage }: FrameworkEd
     <div className="flex w-full h-full">
       {/* Editor Area */}
       <div className="flex flex-1 items-center justify-center min-h-screen p-4 md:p-8">
-        <div className="border border-gray-200 bg-neutral-100 rounded-xl shadow-md w-2/3 overflow-hidden">
+        <div className="border border-gray-200 bg-neutral-100 rounded-xl shadow-md w-3/4 overflow-hidden">
           <header className="px-4 py-2 border-b border-gray-200">
             <h2 className="text-sm font-semibold text-gray-800">Create a new Framework</h2>
           </header>
@@ -231,7 +231,7 @@ export default function FrameworkEditor({ onSave, setAlertMessage }: FrameworkEd
             onMouseUp={handleSelection}
             onKeyUp={handleSelection}
             className="flex-1 p-6 text-sm md:text-lg bg-white resize-none overflow-auto outline-none focus:outline-none transition-all duration-300"
-            style={{ fontFamily: 'Inter, sans-serif', fontSize: '16px ', minHeight: '300px', maxHeight: '300px' }}
+            style={{ fontFamily: 'Inter, sans-serif', fontSize: '16px ', minHeight: '280px', maxHeight: '280px' }}
           />
           {selectedWord && !showSidebar && (
             <div className="fixed bottom-4 left-1/2 -translate-x-1/2 p-3 bg-indigo-600 text-white rounded-lg shadow-xl text-sm md:text-base">
