@@ -201,7 +201,7 @@ export default function FrameworkEditor({ onSave, setAlertMessage }: FrameworkEd
   };
   
   return (
-    <div className="flex w-full h-full">
+    <div className="flex w-full h-full transition-all duration-300">
       {/* Editor Area */}
       <div className="flex flex-1 items-center justify-center min-h-screen p-4 md:p-8">
         <div className="border border-gray-200 bg-neutral-100 rounded-xl shadow-md w-3/4 overflow-hidden">

@@ -32,7 +32,7 @@ export default function SideNavbar({ activeTab, setActiveTab }: SideNavbarProps)
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 
   return (
-      <aside className={`w-64 h-full bg-neutral-100 flex flex-col border-r shadow-md ${isSidebarOpen ? "static p-2" : "absolute w-56 h-[40px] m-2 p-0 rounded-xl"}`}>
+      <aside className={` bg-neutral-100 flex flex-col border-r shadow-md transition-all duration-300 ${isSidebarOpen ? "static p-2 w-64 h-full" : "absolute w-56 h-[40px] m-2 p-0 rounded-xl"}`}>
         {/* Workspace Switcher */}
         <Button variant="ghost" className={`w-full justify-between h-auto ${isSidebarOpen ? "p-2" : "p-0"}`}>
           <div className="flex items-center gap-2">
