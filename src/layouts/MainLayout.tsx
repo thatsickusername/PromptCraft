@@ -1,4 +1,3 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
 import SideNavbar from "../components/sidenav/SideNavbar";
 import CustomAlert from "../components/ui/CustomAlert";
