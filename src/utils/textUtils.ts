@@ -8,7 +8,7 @@ export const renderHighlightedText = (text: string, variables: Record<string, Va
     const regex = new RegExp(word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
     htmlContent = htmlContent.replace(
       regex,
-      `<span class="bg-indigo-200 text-indigo-800 font-semibold px-1 rounded-md cursor-pointer" data-variable-name="${varName}" title="Original: '${word}', Default: '${defaultValue}'">{${varName}}</span>`
+      `<span class="bg-green-200 text-green-800 font-semibold px-1 rounded-md cursor-pointer" data-variable-name="${varName}" title="Original: '${word}', Default: '${defaultValue}'">{${varName}}</span>`
     );
   }
   return htmlContent;
