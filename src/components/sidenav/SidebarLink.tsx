@@ -1,28 +1,34 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import Button from '../ui/Button'; 
-interface SidebarLinkProps extends React.HTMLAttributes<HTMLDivElement> {
+
+interface SidebarLinkProps {
   icon: React.ReactNode;
   text: string;
-  isActive?: boolean;
+  to: string;
 }
 
 const SidebarLink: React.FC<SidebarLinkProps> = ({ 
   icon, 
   text, 
-  isActive = false, 
-  ...props 
+  to 
 }) => {
-  const activeClasses = isActive ? "bg-neutral-200/80 text-neutral-800 font-bold" : "text-neutral-600 font-normal";
-  
   return (
-    <Button 
-      variant="ghost" 
-      className={`w-full gap-2 p-2 h-auto text-sm justify-start cursor-pointer ${activeClasses}`}
-      {...props}
+    <NavLink 
+      to={to}
+      className={({ isActive }) => 
+        `w-full h-auto text-sm justify-start cursor-pointer flex items-center 
+        ${isActive ? "bg-neutral-200/80 text-neutral-800 font-bold" : "text-neutral-600 font-normal"}`
+      }
     >
-      <span className="text-base">{icon}</span>
-      <span className="truncate flex-1 text-left">{text}</span>
-    </Button>
+      <Button 
+        variant="ghost" 
+        className="w-full gap-2 p-2 h-auto text-sm justify-start cursor-pointer"
+      >
+        <span className="text-base">{icon}</span>
+        <span className="truncate flex-1 text-left">{text}</span>
+      </Button>
+    </NavLink>
   );
 };
 
