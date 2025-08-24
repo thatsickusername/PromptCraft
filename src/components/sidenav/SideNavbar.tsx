@@ -32,12 +32,12 @@ export default function SideNavbar({ activeTab, setActiveTab }: SideNavbarProps)
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 
   return (
-      <aside className={` bg-neutral-100 flex flex-col border-r shadow-md transition-all duration-300 ${isSidebarOpen ? "static p-2 w-64 h-full" : "absolute w-56 h-[40px] m-2 p-0 rounded-xl"}`}>
+      <aside className={` bg-neutral-100 flex flex-col border-r shadow-md transition-all duration-300 ${isSidebarOpen ? "static p-2 w-56 h-full" : "absolute w-20 h-[40px] m-2 p-0 rounded-xl"}`}>
         {/* Workspace Switcher */}
         <Button variant="ghost" className={`w-full justify-between h-auto ${isSidebarOpen ? "p-2" : "p-0"}`}>
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 bg-red-500 rounded-md flex items-center justify-center font-bold text-sm text-white">P</div>
-            <span className="text-sm font-semibold text-neutral-800">Prompt Craft</span>
+            <span className={`text-sm font-semibold text-neutral-800  ${isSidebarOpen ? "block" : "hidden"}`}>Prompt Craft</span>
           </div>
           <div className="cursor-pointer" onClick={() => setIsSidebarOpen(prev => !prev)}>
             {isSidebarOpen ? <PanelLeftClose className=" text-neutral-600 h-4 w-4"/> : <PanelLeftOpen className=" text-neutral-600 h-4 w-4"/>}
